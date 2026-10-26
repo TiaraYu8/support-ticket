@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Http\Routes;
 
+use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\RegisterClientController;
 use App\Http\Controllers\Auth\RegisterStaffController;
 
@@ -17,6 +18,11 @@ final class ApiAuthRoutes extends AuthRoutes
     protected function getRegisterStaffController(): string
     {
         return RegisterStaffController::class;
+    }
+
+    protected function getLoginController(): string
+    {
+        return LoginController::class;
     }
 
     protected function getGuestMiddleware(): string

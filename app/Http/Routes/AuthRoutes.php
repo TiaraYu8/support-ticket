@@ -19,6 +19,11 @@ abstract class AuthRoutes implements RouteMapper
      */
     abstract protected function getRegisterStaffController(): string;
 
+    /**
+     * @return class-string
+     */
+    abstract protected function getLoginController(): string;
+
     abstract protected function getGuestMiddleware(): string;
 
     abstract protected function getAdminMiddleware(): string;
@@ -36,6 +41,8 @@ abstract class AuthRoutes implements RouteMapper
             $router->post('/staff/register', $this->getRegisterStaffController())
                 ->middleware($this->getAdminMiddleware());
 
+            $router->post('/login', $this->getLoginController())
+                ->middleware($this->getGuestMiddleware());
         });
     }
 }
