@@ -3,9 +3,15 @@
 namespace App\Services;
 
 use App\Contracts\Services\AuthServiceInterface;
+use App\Core\Processors\Auth\AttemptLoginProcessor;
+use App\Core\Processors\Auth\AttemptLogoutProcessor;
+use App\Core\Processors\Auth\Contexts\GetAllUserContext;
+use App\Core\Processors\Auth\Contexts\LoginContext;
+use App\Core\Processors\Auth\Contexts\LogoutContext;
 use App\Core\Processors\Auth\Contexts\RegisterContext;
 use App\Core\Processors\Auth\CreateOrganizationProcessor;
 use App\Core\Processors\Auth\CreateUserProcessor;
+use App\Core\Processors\Auth\GetAllUserProcessor;
 use App\Models\User;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Pipeline;
@@ -61,5 +67,54 @@ class AuthService implements AuthServiceInterface
         });
 
         return $createdUser;
+    }
+
+    /**
+     * @param  array<string, mixed>  $payload
+     * @return array{user: User, token: string}
+     */
+    public function login(array $payload): array
+    {
+        $context = new LoginContext(payload: $payload);
+
+        /** @var LoginContext $result */
+        $result = Pipeline::send($context)
+            ->through([
+                AttemptLoginProcessor::class,
+            ])
+            ->thenReturn();
+
+        /** @var User $user */
+        $user = $result->user;
+
+        /** @var string $token */
+        $token = $result->token;
+
+        return [
+            'user' => $user,
+            'token' => $token,
+        ];
+    }
+
+    public function logout(User $user): void
+    {
+        $context = new LogoutContext(user: $user);
+
+        Pipeline::send($context)
+            ->through([
+                AttemptLogoutProcessor::class,
+            ])
+            ->thenReturn();
+    }
+
+    public function getAllUsers(int $perPage = 15, ?string $search = null): GetAllUserContext
+    {
+        $context = new GetAllUserContext(perPage: $perPage, search: $search);
+
+        return Pipeline::send($context)
+            ->through([
+                GetAllUserProcessor::class,
+            ])
+            ->thenReturn();
     }
 }

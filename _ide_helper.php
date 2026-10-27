@@ -24741,6 +24741,10 @@ namespace Illuminate\Routing {
 namespace App\Http\Requests\Auth {
     /**
      */
+    class LoginRequest extends \Illuminate\Foundation\Http\FormRequest {
+            }
+    /**
+     */
     class RegisterClientRequest extends \Illuminate\Foundation\Http\FormRequest {
             }
     /**

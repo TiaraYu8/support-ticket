@@ -8,7 +8,7 @@ use Illuminate\Http\Resources\Json\JsonResource;
 /**
  * @mixin User
  */
-class UserClientResource extends JsonResource
+class UserResource extends JsonResource
 {
     /**
      * @return array<string, mixed>
@@ -21,7 +21,7 @@ class UserClientResource extends JsonResource
             'email' => $this->email,
             'role' => $this->role,
             'created_at' => $this->created_at?->toIso8601String(),
-            'organization' => new OrganizationResource($this->whenLoaded('organization')),
+            'organization' => $this->whenLoaded('organization', fn () => $this->organization ? OrganizationResource::make($this->organization) : null),
         ];
     }
 }

@@ -10,10 +10,10 @@ class CreateOrganizationProcessor
 {
     public function handle(RegisterContext $context, Closure $next): mixed
     {
-        return $next(
-            $context->organization = Organization::create([
-                'name' => $context->payload['organization_name'],
-            ])
-        );
+        $context->organization = Organization::create([
+            'name' => $context->payload['organization_name'],
+        ]);
+
+        return $next($context);
     }
 }

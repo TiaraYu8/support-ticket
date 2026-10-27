@@ -9,19 +9,26 @@ use Illuminate\Routing\Router;
 
 abstract class AuthRoutes implements RouteMapper
 {
-    /**
-     * @return class-string
-     */
+    /** @return class-string */
     abstract protected function getRegisterClientController(): string;
 
-    /**
-     * @return class-string
-     */
+    /** @return class-string */
     abstract protected function getRegisterStaffController(): string;
+
+    /** @return class-string */
+    abstract protected function getLoginController(): string;
+
+    /** @return class-string */
+    abstract protected function getLogoutController(): string;
+
+    /** @return class-string */
+    abstract protected function getAllUsersController(): string;
 
     abstract protected function getGuestMiddleware(): string;
 
-    abstract protected function getAdminMiddleware(): string;
+    abstract protected function getClientMiddleware(): array;
+
+    abstract protected function getAdminMiddleware(): array;
 
     /**
      * Map the routes.
@@ -36,6 +43,14 @@ abstract class AuthRoutes implements RouteMapper
             $router->post('/staff/register', $this->getRegisterStaffController())
                 ->middleware($this->getAdminMiddleware());
 
+            $router->post('/login', $this->getLoginController())
+                ->middleware($this->getGuestMiddleware());
+
+            $router->post('/logout', $this->getLogoutController())
+                ->middleware('auth:sanctum');
+
+            $router->get('/users', $this->getAllUsersController())
+                ->middleware($this->getAdminMiddleware());
         });
     }
 }

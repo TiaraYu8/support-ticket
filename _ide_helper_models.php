@@ -39,8 +39,8 @@ namespace App\Models{
 /**
  * @property int $id
  * @property string $name
- * @property string $first_response_duration
- * @property string $resolution_duration
+ * @property mixed|null $first_response_duration
+ * @property mixed|null $resolution_duration
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\TicketSla> $ticketSlas
@@ -148,6 +148,8 @@ namespace App\Models{
  * @property-read \App\Models\Organization|null $organization
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Ticket> $tickets
  * @property-read int|null $tickets_count
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \Laravel\Sanctum\PersonalAccessToken> $tokens
+ * @property-read int|null $tokens_count
  * @method static \Database\Factories\UserFactory factory($count = null, $state = [])
  * @method static \Illuminate\Database\Eloquent\Builder<static>|User newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|User newQuery()

@@ -2,6 +2,8 @@
 
 namespace App\Providers;
 
+use App\Contracts\Repositories\UserRepositoryInterface;
+use App\Repositories\UserRepository;
 use Barryvdh\LaravelIdeHelper\IdeHelperServiceProvider;
 use Illuminate\Support\ServiceProvider;
 use Laravel\Boost\BoostServiceProvider;
@@ -14,6 +16,11 @@ class AppServiceProvider extends ServiceProvider
     public function register(): void
     {
         $this->registerLocalDevelopment();
+
+        $this->app->bind(
+            UserRepositoryInterface::class,
+            UserRepository::class
+        );
     }
 
     private function registerLocalDevelopment(): void

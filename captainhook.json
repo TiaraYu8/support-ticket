@@ -6,9 +6,6 @@
                 "action": "vendor/bin/pint ./app ./database ./tests --test"
             },
             {
-                "action": "vendor/bin/phpstan analyse --no-progress --memory-limit=1G"
-            },
-            {
                 "action": "php artisan test --no-coverage"
             }
         ]

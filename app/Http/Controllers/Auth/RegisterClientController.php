@@ -7,7 +7,7 @@ namespace App\Http\Controllers\Auth;
 use App\Common\Traits\ApiResponses;
 use App\Contracts\Services\AuthServiceInterface;
 use App\Http\Requests\Auth\RegisterClientRequest;
-use App\Http\Resources\UserClientResource;
+use App\Http\Resources\UserResource;
 use Illuminate\Http\JsonResponse;
 
 final readonly class RegisterClientController
@@ -25,7 +25,7 @@ final readonly class RegisterClientController
 
         return $this->successResponse(
             data: [
-                'user' => new UserClientResource($user),
+                'user' => new UserResource($user),
             ],
             message: __('custom.registration_successful'),
             code: 201
