@@ -2,21 +2,20 @@
 
 namespace App\Http\Middleware;
 
-use App\Enums\RolesEnum;
 use Closure;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
 
-class EnsureUserStaff
+class CheckRole
 {
-    public function handle(Request $request, Closure $next): Response
+    public function handle(Request $request, Closure $next, ...$role): Response
     {
         $user = $request->user();
 
-        if (! $user || $user->role !== RolesEnum::SUPPORT_AGENT->value) {
+        if (! $user || ! in_array($user->role, $role)) {
             return response()->json([
                 'success' => false,
-                'message' => 'Forbidden. Only Staff could access this page.',
+                'message' => 'Forbidden. Only {Staff} could access this page.',
             ], 403);
         }
 

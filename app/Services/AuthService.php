@@ -4,10 +4,14 @@ namespace App\Services;
 
 use App\Contracts\Services\AuthServiceInterface;
 use App\Core\Processors\Auth\AttemptLoginProcessor;
+use App\Core\Processors\Auth\AttemptLogoutProcessor;
+use App\Core\Processors\Auth\Contexts\GetAllUserContext;
 use App\Core\Processors\Auth\Contexts\LoginContext;
+use App\Core\Processors\Auth\Contexts\LogoutContext;
 use App\Core\Processors\Auth\Contexts\RegisterContext;
 use App\Core\Processors\Auth\CreateOrganizationProcessor;
 use App\Core\Processors\Auth\CreateUserProcessor;
+use App\Core\Processors\Auth\GetAllUserProcessor;
 use App\Models\User;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Pipeline;
@@ -90,5 +94,27 @@ class AuthService implements AuthServiceInterface
             'user' => $user,
             'token' => $token,
         ];
+    }
+
+    public function logout(User $user): void
+    {
+        $context = new LogoutContext(user: $user);
+
+        Pipeline::send($context)
+            ->through([
+                AttemptLogoutProcessor::class,
+            ])
+            ->thenReturn();
+    }
+
+    public function getAllUsers(int $perPage = 15, ?string $search = null): GetAllUserContext
+    {
+        $context = new GetAllUserContext(perPage: $perPage, search: $search);
+
+        return Pipeline::send($context)
+            ->through([
+                GetAllUserProcessor::class,
+            ])
+            ->thenReturn();
     }
 }
