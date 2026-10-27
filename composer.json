@@ -23,8 +23,7 @@
         "phpunit/phpunit": "^12.5.12",
         "barryvdh/laravel-ide-helper": "^3.7",
         "laravel/sail": "^1.60",
-        "laravel/boost": "^2.4",
-        "larastan/larastan": "^3.9"
+        "laravel/boost": "^2.4"
     },
     "autoload": {
         "psr-4": {
@@ -78,9 +77,6 @@
         ],
         "pre-package-uninstall": [
             "Illuminate\\Foundation\\ComposerScripts::prePackageUninstall"
-        ],
-        "static": [
-            "@php vendor/bin/phpstan analyse --memory-limit=1G --ansi"
         ]
     },
     "extra": {
