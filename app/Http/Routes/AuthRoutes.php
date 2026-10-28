@@ -24,6 +24,9 @@ abstract class AuthRoutes implements RouteMapper
     /** @return class-string */
     abstract protected function getAllUsersController(): string;
 
+    /** @return class-string */
+    abstract protected function getStoreTicketController(): string;
+
     abstract protected function getGuestMiddleware(): string;
 
     abstract protected function getClientMiddleware(): array;
@@ -51,6 +54,9 @@ abstract class AuthRoutes implements RouteMapper
 
             $router->get('/users', $this->getAllUsersController())
                 ->middleware($this->getAdminMiddleware());
+
+            $router->post('/ticket', $this->getStoreTicketController())
+                ->middleware($this->getClientMiddleware());
         });
     }
 }
