@@ -9,6 +9,7 @@ use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\LogoutController;
 use App\Http\Controllers\Auth\RegisterClientController;
 use App\Http\Controllers\Auth\RegisterStaffController;
+use App\Http\Controllers\Tickets\StoreTicketController;
 
 final class ApiAuthRoutes extends AuthRoutes
 {
@@ -35,6 +36,11 @@ final class ApiAuthRoutes extends AuthRoutes
     protected function getAllUsersController(): string
     {
         return GetAllUsersController::class;
+    }
+
+    protected function getStoreTicketController(): string
+    {
+        return StoreTicketController::class;
     }
 
     protected function getGuestMiddleware(): string

@@ -24760,6 +24760,13 @@ namespace Illuminate\Foundation\Http {
             }
     }
 
+namespace App\Http\Requests\Ticket {
+    /**
+     */
+    class CreateTicketRequest extends \Illuminate\Foundation\Http\FormRequest {
+            }
+    }
+
 
 namespace  {
     class App extends \Illuminate\Support\Facades\App {}
